@@ -2,13 +2,12 @@
 # coding: utf8
 #vim: et: sw=4: ts=4: ai: si: sta
 
-from blessings import Terminal 
-from urwid.curses_display import Screen
-import blessings
 import pdb
 import sys
+from terminal_ui import UI
+from blessings import Terminal
 t = Terminal()
-scr = Screen()
+ui = UI()
 boardwidth = 8#actual width 
 boardheight = 9 #actual height 
 entities = []
@@ -54,42 +53,41 @@ class Map():
 		return self.board[listPos]
 class Player():
 	def __init__(self):
-		self.plyx = plyspnx
-		self.plyy = plyspny
+		self.x = plyspnx
+		self.y = plyspny
 		self.map = plymap
+		self.appearance = playergraphic
 	def draw(self):
-		with t.location(self.plyx, self.plyy):
-			print(t.blue(playergraphic))
+		ui.draw_entity_at(self)
 	def locate(self):
-		return self.plyx,self.plyy
+		return self.x,self.y
 	def move(self, x, y):
-		tile = self.map[self.plyx+x, self.plyy+y] 
+		tile = self.map[self.x+x, self.y+y] 
 		if tile in impassible:
 			return	
 		elif tile not in impassible:
 			pass
 		for ent in entities:
 			if ent.pushable():
-				if ent.x == self.plyx+x and ent.y == self.plyy+y:
+				if ent.x == self.x+x and ent.y == self.y+y:
 					if ent.move(x,y) == True:
 						pass
 					else:
 						return False
 				
-		self.plyx += x
-		self.plyy += y
+		self.x += x
+		self.y += y
+	def checkSatisfied(self):
+		return False
 		
 class Box():
 	def __init__(self, x, y, map):
 		self.x = x
 		self.y = y
 		self.map = map
+		self.appearance = boxgraphic
 	def draw(self):
-		with t.location(self.x, self.y):
-			if self.checkSatisfied():
-				print(t.red(boxgraphic))
-			else:
-				print(boxgraphic)
+		ui.draw_entity_at(self)
 	def move(self, x, y):
 		tile = self.map[self.x+x, self.y+y]
 		if tile in impassible:
@@ -167,24 +165,21 @@ def checkComplete():
 
 spawn_entites()
 player = Player()
-with t.hidden_cursor():
-	with scr.start():
-		scr.s.refresh()
-		while True:
-			draw()
-			player.draw()
-			for ent in entities:
-				ent.draw()	
-			for i in scr.get_input():
-				inp = i
-			if inp == "d":
-				player.move(1,0)
-			if inp == "a":
-				player.move(-1,0)
-			if inp == "w":
-				player.move(0,-1)
-			if inp == "s":
-				player.move(0,1)
-			if inp == "n":
-				player.move(0,0)
-			checkComplete()
+with ui.setup():
+	while True:
+		draw()
+		player.draw()
+		for ent in entities:
+			ent.draw()
+		inp = ui.get_input()	
+		if inp == "d":
+			player.move(1,0)
+		if inp == "a":
+			player.move(-1,0)
+		if inp == "w":
+			player.move(0,-1)
+		if inp == "s":
+			player.move(0,1)
+		if inp == "n":
+			player.move(0,0)
+		checkComplete()
