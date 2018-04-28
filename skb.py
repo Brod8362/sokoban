@@ -5,8 +5,6 @@
 import pdb
 import sys
 from terminal_ui import UI
-from blessings import Terminal
-t = Terminal()
 ui = UI()
 boardwidth = 8#actual width 
 boardheight = 9 #actual height 
@@ -118,32 +116,30 @@ plyspny = 0
 gb = Map()
 plymap = gb
 def draw():
-	print(t.clear())
+	ui.clear()
 	global curx
 	global cury
 	curx = 0
 	cury = 0
 	for x in gb.board:
-		with t.location(curx, cury):
-			print(graphicsreference[x])
-			curcontrol()
+		ui.draw_tile_at(x,curx,cury,graphicsreference)
+		curcontrol()
 def spawn_entites():
 	global curx
 	global cury
 	curx = 0
 	cury = 0
 	for x in gb.board:
-		with t.location(curx, cury):
-			if x == 2:
-				global plyspnx
-				global plyspny
-				plyspnx = curx
-				plyspny = cury
-			elif x == 3:
-				entities.append(Box(curx,cury,gb))
-			elif x == 5: 
-				entities.append(Box(curx,cury,gb))
-			curcontrol()
+		if x == 2:
+			global plyspnx
+			global plyspny
+			plyspnx = curx
+			plyspny = cury
+		elif x == 3:
+			entities.append(Box(curx,cury,gb))
+		elif x == 5: 
+			entities.append(Box(curx,cury,gb))
+		curcontrol()
 def curcontrol():
 	global curx 
 	global cury

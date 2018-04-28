@@ -23,4 +23,8 @@ class UI():
 				print(t.red(ent.appearance))
 			else:
 				print(ent.appearance)
-		
+	def draw_tile_at(self,tile,x,y,tileset):
+		with t.location(x,y):
+			print(tileset[tile])
+	def clear(self):
+		print(t.clear())		
