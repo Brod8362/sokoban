@@ -2,3 +2,4 @@
 *.pyc
 *.pyo
 sokoban-venv
+__pycache__

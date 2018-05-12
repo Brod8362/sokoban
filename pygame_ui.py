@@ -22,25 +22,26 @@ class UI():
 		}
 		self.twidth = pygame.Surface.get_width(self.reference[0])
 		self.theight = pygame.Surface.get_height(self.reference[0])
+		self.done = False
+		self.clock = pygame.time.Clock()
 	@contextmanager
 	def setup(self):
 		yield
 	
 	def get_input(self):
-		pygame.display.flip()
 		while True:
-			event = pygame.event.wait()
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_w:
-					return "w"
-				elif event.key == pygame.K_s:
-					return "s"
-				elif event.key == pygame.K_a:
-					return "a"
-				elif event.key == pygame.K_d:
-					return "d"	
-				elif event.key == pygame.K_q:
-					sys.exit()
+			for event in pygame.event.get():
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_w:
+						return "w"
+					elif event.key == pygame.K_s:
+						return "s"
+					elif event.key == pygame.K_a:
+						return "a"
+					elif event.key == pygame.K_d:
+						return "d"	
+					elif event.key == pygame.K_q:
+						sys.exit()
 	def draw_entity_at(self,ent,x=None,y=None): #add specifc cords later
 		if ent.isBox():
 			if ent.checkSatisfied():
@@ -57,3 +58,7 @@ class UI():
 			self.screen.blit(self.reference[tile], (x*self.twidth,y*self.theight))
 	def clear(self):
 		self.screen.fill((0,0,0))
+	def update(self):
+		pygame.display.flip()
+		pygame.clock.tick(60)
+		

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# coding: utf8
+#encoding: utf8
 #vim: et: sw=4: ts=4: ai: si: sta
 
 import pdb
@@ -184,3 +184,4 @@ with ui.setup():
 		if inp == "n":
 			player.move(0,0)
 		checkComplete()
+		ui.update()
