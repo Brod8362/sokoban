@@ -4,7 +4,10 @@
 
 import pdb
 import sys
-from terminal_ui import UI
+try:
+	from pygame_ui import UI
+except:
+	from terminal_ui import UI
 ui = UI()
 boardwidth = 8#actual width 
 boardheight = 9 #actual height 
@@ -76,6 +79,8 @@ class Player():
 		self.x += x
 		self.y += y
 	def checkSatisfied(self):
+		return False
+	def isBox(self):
 		return False
 		
 class Box():
