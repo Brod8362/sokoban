@@ -29,19 +29,19 @@ class UI():
 		yield
 	
 	def get_input(self):
-		while True:
-			for event in pygame.event.get():
-				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_w:
-						return "w"
-					elif event.key == pygame.K_s:
-						return "s"
-					elif event.key == pygame.K_a:
-						return "a"
-					elif event.key == pygame.K_d:
-						return "d"	
-					elif event.key == pygame.K_q:
-						sys.exit()
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_w:
+					return "w"
+				elif event.key == pygame.K_s:
+					return "s"
+				elif event.key == pygame.K_a:
+					return "a"
+				elif event.key == pygame.K_d:
+					return "d"	
+				elif event.key == pygame.K_q:
+					sys.exit()
+			return None
 	def draw_entity_at(self,ent,x=None,y=None): #add specifc cords later
 		if ent.isBox():
 			if ent.checkSatisfied():
@@ -60,5 +60,8 @@ class UI():
 		self.screen.fill((0,0,0))
 	def update(self):
 		pygame.display.flip()
-		pygame.clock.tick(60)
-		
+		self.clock.tick(60)
+	def music(self):
+#		pygame.mixer.music.load('sound/test.wav')
+#		pygame.mixer.music.play(-1)	
+		pass

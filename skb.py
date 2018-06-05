@@ -8,6 +8,7 @@ try:
 	from pygame_ui import UI
 except:
 	from terminal_ui import UI
+	pass
 ui = UI()
 boardwidth = 8#actual width 
 boardheight = 9 #actual height 
@@ -166,12 +167,14 @@ def checkComplete():
 
 spawn_entites()
 player = Player()
+ui.music()
 with ui.setup():
 	while True:
 		draw()
 		player.draw()
 		for ent in entities:
 			ent.draw()
+		ui.update()
 		inp = ui.get_input()	
 		if inp == "d":
 			player.move(1,0)
@@ -184,4 +187,3 @@ with ui.setup():
 		if inp == "n":
 			player.move(0,0)
 		checkComplete()
-		ui.update()
